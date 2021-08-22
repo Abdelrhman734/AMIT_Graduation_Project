@@ -18,10 +18,10 @@
 
 void SPI_voidMasterInit (void)
 {
-	 DIO_voidSetPinDirection  (PORTB , PIN5 , OUTPUT);
-	 DIO_voidSetPinDirection  (PORTB , PIN6 , INPUT);
-	 DIO_voidSetPinDirection  (PORTB , PIN7 , OUTPUT);
-	 DIO_voidSetPinDirection  (PORTB , PIN4 , OUTPUT);
+	DIO_voidSetPinDirection  (PORTB , PIN5 , OUTPUT);
+	DIO_voidSetPinDirection  (PORTB , PIN6 , INPUT);
+	DIO_voidSetPinDirection  (PORTB , PIN7 , OUTPUT);
+	DIO_voidSetPinDirection  (PORTB , PIN4 , OUTPUT);
 	SPCR_REG = 0b01111110;
 
 }
@@ -51,15 +51,17 @@ u8 SPI_u8SlaveTransmitReceive (u8 Data)
 	return SPDR_REG;
 }
 
+//CREATING GLOBAL POINTER TO FUNCTION
 void (*SPI)(void);
 
+//MAKE THE GLOBAL POINTER TO FUNCTION POINT AT SPECIFIC FUNCTION
 void SPI_voidMakeMeISR( void(*ptr)(void)){
 
 	SPI = ptr;
 
 }
 
-
+//MAKING THE FUNCTION THAT SPI POINT AT A ISR FUNCTION
 void __vector_12(void){
 
 	SPI();
